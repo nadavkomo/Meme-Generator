@@ -13,6 +13,18 @@ var gMeme = {
     lines: []
 }
 
+function init() {
+    if (loadFromStorage('gMeme')) {
+        gMeme = loadFromStorage('gMeme')
+        console.log(gMeme);
+    }
+    renderCanvas()
+}
+
+function removeLine(idxLine) {
+    gMeme.lines.splice(idxLine, 1)
+}
+
 function getImgById(imgId) {
     return gImgs.find(img => img.id === imgId)
 }
@@ -29,9 +41,9 @@ function renderCanvas() {
     setTimeout(function() {
         gMeme.lines.forEach((line, idx) => {
             console.log(idx);
-            drawText(0)
+            drawText(idx)
         })
-    }, 10)
+    }, 100)
 }
 
 
@@ -47,6 +59,7 @@ function drawImg(imgUrl) {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
     }
+    saveToStorage('gMeme', gMeme)
 }
 
 function drawText(selectedLineIdx, x = 250, y = 50) {
@@ -66,6 +79,7 @@ function drawText(selectedLineIdx, x = 250, y = 50) {
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
     gMeme.selectedLineIdx++;
+    saveToStorage('gMeme', gMeme)
 }
 
 function toMemeEditor(className) {
@@ -80,6 +94,7 @@ function toMemeEditor(className) {
     // renderCanvas(className.split(' ')[1])
     gMeme.selectedImgId = className.split(' ')[1]
     setBgImg(className.split(' ')[1])
+    renderCanvas()
 }
 
 function toGallery(elLink) {

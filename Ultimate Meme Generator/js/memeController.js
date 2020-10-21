@@ -7,6 +7,29 @@ var gCtx;
 function onInit() {
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d');
+    init()
+}
+
+function onSizeUp() {
+    var size = +gMeme.lines[gMeme.selectedLineIdx - 1].size
+    size += 10
+    gMeme.lines[gMeme.selectedLineIdx - 1].size = `${size}`
+    renderCanvas()
+    saveToStorage('gMeme', gMeme)
+}
+
+function onSizeDown() {
+    var size = +gMeme.lines[gMeme.selectedLineIdx - 1].size
+    size -= 10
+    gMeme.lines[gMeme.selectedLineIdx - 1].size = `${size}`
+    renderCanvas()
+    saveToStorage('gMeme', gMeme)
+}
+
+function onRemoveLine() {
+    console.log(gMeme.selectedLineIdx - 1);
+    removeLine(gMeme.selectedLineIdx - 1);
+    renderCanvas();
 }
 
 

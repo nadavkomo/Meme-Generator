@@ -56,15 +56,16 @@
             </select>
 
             <section class="function-line flex">
-                <button class="removeLine">remove</button>
+                <button class="removeLine" onclick="onRemoveLine()">remove</button>
                 <button class="addLine" onclick="onDrawText()">add</button>
-                <button class="selectLine">select</button>
+                <button class="selectLine" onclick="onSelectLineUp()">selectUp</button>
+                <button class="selectLine" onclick="onSelectLineDown()">selectDown</button>
             </section>
 
             <section class="tools-edit">
                 <section class="text-size flex">
                     <button class="textUpSize" onclick="onSizeUp()">size+</button>
-                    <button class="textDownSize" onclick="onSizeUp()">size-</button>
+                    <button class="textDownSize" onclick="onSizeDown()">size-</button>
                 </section>
                 <section class="text-position flex"></section>
                 <button class="textLeft">left</button>
