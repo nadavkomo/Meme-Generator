@@ -16,7 +16,6 @@ var gMeme = {
 function init() {
     if (loadFromStorage('gMeme')) {
         gMeme = loadFromStorage('gMeme')
-        console.log(gMeme);
     }
     renderCanvas()
 }
@@ -29,10 +28,41 @@ function getImgById(imgId) {
     return gImgs.find(img => img.id === imgId)
 }
 
+function getCurrLine() {
+    return gMeme.lines[gMeme.selectedLineIdx - 1]
+}
+
 function clearCanvas() {
     gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
 }
 
+function canvasClicked(ev) {
+    const { offsetX, offsetY } = ev;
+    console.log('offsetX', offsetX);
+    console.log('offsetY', offsetY);
+    const clickedLine = gMeme.lines.forEach((line, idx) => {
+        var lineHeight = +line.size * 1.286;
+        var lineWidth = gCtx.measureText(line.text).width;
+        console.log('lineWidth', lineWidth);
+        console.log('lineHeight', lineHeight);
+        console.log(offsetX, '>', line.x);
+        console.log(offsetX, '<', line.x + lineWidth);
+        console.log(offsetY, '<', line.y);
+        console.log(offsetY, '>', lineHeight);
+        if (offsetX > line.x && offsetX < line.x + lineWidth && offsetY < line.y && offsetY > lineHeight) {
+            gMeme.selectedLineIdx = idx
+            buildRectOnText(line.size, line.text, line.x, line.y)
+            console.log(line);
+            return line;
+        }
+    })
+
+}
+
+// const currLine = getCurrLine()
+// if (line = currLine) {
+//     buildRectOnText(currLine.size, currLine.text, currLine.x, currLine.y)
+// }
 
 function renderCanvas() {
     gMeme.selectedLineIdx = 0;
@@ -40,7 +70,6 @@ function renderCanvas() {
     setBgImg(gMeme.selectedImgId)
     setTimeout(function() {
         gMeme.lines.forEach((line, idx) => {
-            console.log(idx);
             drawText(idx)
         })
     }, 100)
@@ -62,25 +91,41 @@ function drawImg(imgUrl) {
     saveToStorage('gMeme', gMeme)
 }
 
-function drawText(selectedLineIdx, x = 250, y = 50) {
+function drawText(selectedLineIdx, x = 250, y = 100) {
     const text = gMeme.lines[selectedLineIdx].text;
-    console.log(text);
     const size = gMeme.lines[selectedLineIdx].size
-    console.log(size);
     const align = gMeme.lines[selectedLineIdx].align;
     const strokeColor = gMeme.lines[selectedLineIdx].strokeColor;
     const fillColor = gMeme.lines[selectedLineIdx].fillColor;
     const font = gMeme.lines[selectedLineIdx].font
+    gMeme.lines[selectedLineIdx].x = x;
+    gMeme.lines[selectedLineIdx].y = y;
     gCtx.strokeStyle = strokeColor
     gCtx.fillStyle = fillColor
     gCtx.lineWidth = '2'
     gCtx.font = `${size}px ${font}`
     gCtx.textAlign = align
+        // gCtx.textBaseline = 'top';
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
     gMeme.selectedLineIdx++;
     saveToStorage('gMeme', gMeme)
 }
+
+function buildRectOnText(fontSize, text, x, y) {
+    var lineHeight = fontSize * 1.286;
+    var textWidth = gCtx.measureText(text).width;
+    gCtx.strokeRect(x, y, textWidth, lineHeight);
+}
+
+
+
+
+
+
+
+
+
 
 function toMemeEditor(className) {
     const elPrevLink = document.querySelector('.active');

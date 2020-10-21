@@ -32,6 +32,10 @@ function onRemoveLine() {
     renderCanvas();
 }
 
+function onSelectLineUp() {
+
+}
+
 
 
 function onDrawText() {

@@ -150,19 +150,19 @@ img {
 .meme-editor {
     display: none;
     justify-content: space-around;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 
 canvas {
     display: block;
-    margin: 20px auto;
+    /* margin: 20px auto; */
     border: 1px solid black;
 }
 
 .canvas-container {
     /* background-color: aquamarine; */
-    width: 546px;
-    height: 476px;
+    /* width: 546px;
+    height: 476px; */
     border: 1px solid red;
 }
 
