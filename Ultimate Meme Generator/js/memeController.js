@@ -69,6 +69,12 @@ function onTextRight() {
     renderCanvas()
 }
 
+function onDownloadCanvas(elLink) {
+    const data = gCanvas.toDataURL()
+    elLink.href = data
+    elLink.download = 'Meme.jpg'
+}
+
 function onSelectLine() {
     if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
     var selectedIdx = gMeme.selectedLineIdx - 1

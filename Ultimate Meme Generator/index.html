@@ -29,7 +29,7 @@
 
     <div class="meme-editor">
         <div class="canvas-container flex">
-            <canvas id="my-canvas" height="600" width="500" onclick="canvasClicked(event)" onmousedown="onMoveText(event)" ontouchstart="onMoveText(event)"></canvas>
+            <canvas id="my-canvas" height="476" width="500" onclick="canvasClicked(event)" onmousedown="onMoveText(event)" ontouchstart="onMoveText(event)"></canvas>
             <!-- <canvas id="my-canvas" height="600" width="500" onmousedown="onMoveText" ontouchstart="onMoveText" onmousemove="onTextMove(event)" ontouchmove="onTextMove(event)"></canvas> -->
         </div>
 
@@ -79,9 +79,21 @@
             </section>
 
             <section class="options">
+                <!-- <button><a href="#" onclick="onDownloadCanvas(this)" download="">Download</a></button> -->
                 <button class="share">SHARE</button>
-                <button class="download">DOWNLOAD</button>
+                <!-- <button class="download">DOWNLOAD</button> -->
             </section>
+
+            <input type="file" class="file-input btn" name="image" onchange="onImgInput(event)" />
+
+            <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                <input name="img" id="imgData" type="hidden" />
+                <button class="btn" type="submit">Publish</button>
+                <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg">Download as jpeg</a>
+                <div class="share-container"></div>
+            </form>
+
+
         </div>
     </div>
 
@@ -102,6 +114,7 @@
 
     <script src="js/memeUtils.js"></script>
     <script src="js/memeStorageService.js"></script>
+    <script src="js/upload-service.js"></script>
     <script src="js/memeService.js"></script>
     <script src="js/memeController.js"></script>
 </body>

@@ -6,6 +6,15 @@ var gImgs = [
     { id: 3, url: 'img/3.jpg', keywords: ['cute', 'animal'] },
 ];
 
+function addImg(url, keywords) {
+    gImgs.push({
+        id: gImgs.length + 1,
+        url,
+        keywords,
+        upload: true,
+    })
+}
+
 
 var gMeme = {
     selectedImgId: 1,
@@ -61,7 +70,11 @@ function canvasClicked(ev) {
 
 function renderCanvas() {
     clearCanvas()
-    setBgImg(gMeme.selectedImgId)
+    if (gImgs[gMeme.selectedImgId - 1].upload) {
+        gCtx.drawImage(gImgs[gMeme.selectedImgId - 1].url, 0, 0);
+    } else {
+        setBgImg(gMeme.selectedImgId)
+    }
     setTimeout(function() {
         gMeme.lines.forEach((line, idx) => {
             drawText(idx, line.x, line.y)
@@ -108,6 +121,34 @@ function buildRectOnText(fontSize, text, x, y) {
     var lineHeight = fontSize * 1.286;
     var textWidth = gCtx.measureText(text).width;
     gCtx.strokeRect(x, y, textWidth, lineHeight);
+}
+
+function onImgInput(ev) {
+    loadImageFromInput(ev, uploadCanvasBg)
+}
+
+function uploadCanvasBg(img) {
+    gCtx.drawImage(img, 0, 0);
+    addImg(img)
+    gMeme.selectedImgId = gImgs.length
+    renderCanvas()
+}
+
+function loadImageFromInput(ev, onImageReady) {
+    document.querySelector('.share-container').innerHTML = ''
+    var reader = new FileReader();
+
+    reader.onload = function(event) {
+        var img = new Image();
+        img.onload = onImageReady.bind(null, img)
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(ev.target.files[0]);
+}
+
+function downloadImg(elLink) {
+    var imgContent = gCanvas.toDataURL('image/jpeg');
+    elLink.href = imgContent
 }
 
 
