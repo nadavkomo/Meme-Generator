@@ -29,7 +29,7 @@
 
     <div class="meme-editor">
         <div class="canvas-container flex">
-            <canvas id="my-canvas" height="600" width="500" onclick="canvasClicked(event)"></canvas>
+            <canvas id="my-canvas" height="600" width="500" onclick="canvasClicked(event)" onmousedown="onMoveText(event)" ontouchstart="onMoveText(event)"></canvas>
             <!-- <canvas id="my-canvas" height="600" width="500" onmousedown="onMoveText" ontouchstart="onMoveText" onmousemove="onTextMove(event)" ontouchmove="onTextMove(event)"></canvas> -->
         </div>
 
@@ -42,12 +42,12 @@
             <input type="color" name="text-fillColor" id="text-fillColor" placeholder="Enter fillColor" />
             <label for="text-size">Text-size:</label>
             <input type="text" name="text-size" id="text-size" placeholder="Enter text-size" />
-            <label for="text-align">Choose align:</label>
+            <!-- <label for="text-align">Choose align:</label>
             <select id="text-align">
               <option value="left">left</option>
               <option value="center">center</option>
               <option value="right">right</option>
-            </select>
+            </select> -->
             <label for="text-font">Choose font</label>
             <select id="text-font">
                 <option value="Ariel">Ariel</option>
@@ -56,10 +56,15 @@
             </select>
 
             <section class="function-line flex">
-                <button class="removeLine" onclick="onRemoveLine()">remove</button>
-                <button class="addLine" onclick="onDrawText()">add</button>
-                <button class="selectLine" onclick="onSelectLineUp()">selectUp</button>
-                <button class="selectLine" onclick="onSelectLineDown()">selectDown</button>
+                <section class="text-move"></section>
+                <button class="moveUp" onclick="onMoveUp()">Move Up</button>
+                <button class="moveDown" onclick="onMoveDown()">Move Down</button>
+                <button class="moveLeft" onclick="onMoveLeft()">Move Left</button>
+                <button class="moveRight" onclick="onMoveRight()">Move Right</button>
+            </section>
+            <button class="removeLine" onclick="onRemoveLine()">remove</button>
+            <button class="addLine" onclick="onDrawText()">add</button>
+            <button class="selectLine" onclick="onSelectLine()">select</button>
             </section>
 
             <section class="tools-edit">
@@ -68,9 +73,9 @@
                     <button class="textDownSize" onclick="onSizeDown()">size-</button>
                 </section>
                 <section class="text-position flex"></section>
-                <button class="textLeft">left</button>
-                <button class="textCenter">center</button>
-                <button class="textRight">right</button>
+                <button class="textLeft" onclick="onTextLeft()">left</button>
+                <button class="textCenter" onclick="onTextCenter()">center</button>
+                <button class="textRight" onclick="onTextRight()">right</button>
             </section>
 
             <section class="options">

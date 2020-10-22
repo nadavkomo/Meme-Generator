@@ -38,22 +38,17 @@ function clearCanvas() {
 
 function canvasClicked(ev) {
     const { offsetX, offsetY } = ev;
-    console.log('offsetX', offsetX);
-    console.log('offsetY', offsetY);
     const clickedLine = gMeme.lines.forEach((line, idx) => {
         var lineHeight = +line.size * 1.286;
         var lineWidth = gCtx.measureText(line.text).width;
-        console.log('lineWidth', lineWidth);
-        console.log('lineHeight', lineHeight);
-        console.log(offsetX, '>', line.x);
-        console.log(offsetX, '<', line.x + lineWidth);
-        console.log(offsetY, '<', line.y);
-        console.log(offsetY, '>', lineHeight);
-        if (offsetX > line.x && offsetX < line.x + lineWidth && offsetY < line.y && offsetY > lineHeight) {
-            gMeme.selectedLineIdx = idx
-            buildRectOnText(line.size, line.text, line.x, line.y)
-            console.log(line);
-            return line;
+        if (offsetX > line.x && offsetX < line.x + lineWidth && offsetY > line.y && offsetY < line.y + lineHeight) {
+            renderCanvas()
+            gMeme.selectedLineIdx = idx + 1
+            console.log(gMeme);
+            setTimeout(function() {
+                buildRectOnText(line.size, line.text, line.x, line.y);
+                return line;
+            }, 100)
         }
     })
 
@@ -65,12 +60,11 @@ function canvasClicked(ev) {
 // }
 
 function renderCanvas() {
-    gMeme.selectedLineIdx = 0;
     clearCanvas()
     setBgImg(gMeme.selectedImgId)
     setTimeout(function() {
         gMeme.lines.forEach((line, idx) => {
-            drawText(idx)
+            drawText(idx, line.x, line.y)
         })
     }, 100)
 }
@@ -94,7 +88,7 @@ function drawImg(imgUrl) {
 function drawText(selectedLineIdx, x = 250, y = 100) {
     const text = gMeme.lines[selectedLineIdx].text;
     const size = gMeme.lines[selectedLineIdx].size
-    const align = gMeme.lines[selectedLineIdx].align;
+        // const align = gMeme.lines[selectedLineIdx].align;
     const strokeColor = gMeme.lines[selectedLineIdx].strokeColor;
     const fillColor = gMeme.lines[selectedLineIdx].fillColor;
     const font = gMeme.lines[selectedLineIdx].font
@@ -104,12 +98,10 @@ function drawText(selectedLineIdx, x = 250, y = 100) {
     gCtx.fillStyle = fillColor
     gCtx.lineWidth = '2'
     gCtx.font = `${size}px ${font}`
-    gCtx.textAlign = align
-        // gCtx.textBaseline = 'top';
+    gCtx.textAlign = 'left'
+    gCtx.textBaseline = 'top';
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
-    gMeme.selectedLineIdx++;
-    saveToStorage('gMeme', gMeme)
 }
 
 function buildRectOnText(fontSize, text, x, y) {
