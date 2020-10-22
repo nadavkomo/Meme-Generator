@@ -1,9 +1,10 @@
 'use strict'
 
 var gImgs = [
-    { id: 1, url: 'img/1.jpg', keywords: ['funny'] },
-    { id: 2, url: 'img/2.jpg', keywords: ['animal'] },
-    { id: 3, url: 'img/3.jpg', keywords: ['cute', 'animal'] },
+    { id: 1, url: 'img/meme-imgs (various aspect ratios)/2.jpg', keywords: ['funny'] },
+    { id: 2, url: 'img/meme-imgs (various aspect ratios)/003.jpg', keywords: ['animal'] },
+    { id: 3, url: 'img/meme-imgs (various aspect ratios)/004.jpg', keywords: ['cute', 'animal'] },
+    { id: 4, url: 'img/meme-imgs (various aspect ratios)/5.jpg', keywords: ['cute', 'animal'] },
 ];
 
 function addImg(url, keywords) {
@@ -85,7 +86,6 @@ function renderCanvas() {
 
 function setBgImg(imgId) {
     const currImg = getImgById(+imgId)
-    console.log(currImg.url);
     drawImg(currImg.url)
 }
 
@@ -93,6 +93,9 @@ function drawImg(imgUrl) {
     var img = new Image()
     img.src = `./${imgUrl}`;
     img.onload = () => {
+        // console.log(gCanvas);
+        gCanvas.height = (img.height * gCanvas.width) / img.width;
+        // console.log(gCanvas);
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
     }
     saveToStorage('gMeme', gMeme)
